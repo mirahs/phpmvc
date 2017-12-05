@@ -1,0 +1,12 @@
+{
+	"require": {
+		"filp/whoops": "*"
+	},
+
+	"autoload": {
+		"classmap": [
+			"application",
+			"lib"
+		]
+	}
+}
