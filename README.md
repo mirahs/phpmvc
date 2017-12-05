@@ -5,15 +5,9 @@ a simple mvc framework by php
 * composer
 
 ## 编译
-win
-```bat
+```shell
 composer install
 composer dump-autoload
-```
-linux
-```shell
-composer.phar install
-composer.phar dump-autoload
 ```
 
 ## 示例配置
