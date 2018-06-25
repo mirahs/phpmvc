@@ -4,12 +4,10 @@ namespace core;
 
 /** 制表符 **/
 define('Tabs',                   "\t");
-
 /** 换行符 **/
 define('Newline',                "\r\n");
-
 /** 现在秒数 **/
-define('Now_Time',               time());
+define('NOW_TIME',               time());
 
 
 /**
@@ -45,11 +43,16 @@ function ip()
 			$hdr_ip = stripslashes($_SERVER['REMOTE_ADDR']);
 		}
 	}
-	
 	return $hdr_ip;
 }
+
 /**
  * 输出URL
+ *
+ * @param string $url
+ * @param array $data
+ *
+ * @return string
  */
 function url($url, $data)
 {
@@ -58,14 +61,18 @@ function url($url, $data)
 	{
 		foreach ($data as $key => $value)
         {
-            $rs[] = $key.'='.urlencode($value);
+            $rs[] = $key . '=' . urlencode($value);
         }
 	}
-	return $url.(strstr('?',$url)?'&':'?').implode('&',$rs);
+	return $url . (strstr('?', $url) ? '&' : '?') . implode('&', $rs);
 }
 
 /**
  * 得到 原生 URL(去问号后的 QUERY_STRING)
+ *
+ * @param string $uri
+ *
+ * @return string
  */
 function url_original($uri)
 {
@@ -75,6 +82,11 @@ function url_original($uri)
 
 /**
  * 通过uri得到mod
+ *
+ * @param string $uri
+ * @param string $root
+ *
+ * @return array
  */
 function url_to_mod($uri, $root='/')
 {
@@ -101,7 +113,7 @@ function expires($expires=0, $etag='', $LastModified=0)
 {
 	if($expires)
 	{
-		header("Expires: " . gmdate("D, d M Y H:i:s", Now_Time + $expires) . " GMT");
+		header("Expires: " . gmdate("D, d M Y H:i:s", NOW_TIME + $expires) . " GMT");
 		header("Cache-Control: max-age=" . $expires);
 		$LastModified && header("Last-Modified: " . gmdate("D, d M Y H:i:s", $LastModified) . " GMT");
 		if($etag)
@@ -165,11 +177,12 @@ function gouri($link = '', $top = '', $note = '')
  *
  * @param string $msg
  * @param boolean $outer
+ *
  * @return string
  */
 function msg($msg, $outer = true)
 {
-	$rs = Newline . 'alert(' . Json_encode($msg) . ');' . Newline;
+	$rs = Newline . 'alert(' . json_encode($msg) . ');' . Newline;
 	if ($outer)
 	{
 		$rs = '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />' . Newline . '<script type="text/javascript">' . Newline . $rs . Newline . '</script>' . Newline;
@@ -297,8 +310,8 @@ class Base
 	}
 	
 	/**
-     * 调试 相关
-     * @return \core\Debug
+     * 调试相关
+     * @var $debug Debug
      */
     public $debug	= null;
 	/**

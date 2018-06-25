@@ -1,4 +1,7 @@
 <?php
+error_reporting(E_ALL^ E_DEPRECATED ^ E_STRICT ^ E_NOTICE);
+
+
 // 根目录
 define('ROOT_PATH',     __DIR__ . '/');
 // 框架核心目录
