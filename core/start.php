@@ -10,7 +10,17 @@ define('DEFAULT_CONTROLLER',    'Index');
 define('DEFAULT_METHOD',        'Index');
 
 
-$uri = core\url_original($_SERVER['REQUEST_URI']);
-$mod = core\url_to_mod($uri);
+// 命令行模式
+if ('cli' === PHP_SAPI)
+{
+    // php index.php app,controller,method
+    $mod = $argv[1];
+    $mod = explode(',', $mod);
+}
+else
+{
+    $uri = core\url_original($_SERVER['REQUEST_URI']);
+    $mod = core\url_to_mod($uri);
+}
 
 core\start($mod);

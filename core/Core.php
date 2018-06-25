@@ -372,9 +372,9 @@ function start($mod)
 	header('X-Powered-By: Mochiweb/Mirahs');
 
 	if (is_array($mod) && $mod[0])
-	{
+	{// 有app
 		if ($mod[1])
-		{
+		{// 有controller
 			$app    = $mod[0];
 			$Module = $mod[1];
             $filename = APP_PATH . $app . '/controller/' . $Module . '.php';
@@ -384,22 +384,22 @@ function start($mod)
                 array_shift($mod);
             }
             else
-            {
+            {// 默认controller
                 $Module =  DEFAULT_CONTROLLER;
             }
 		}
 		else
-		{
+		{// 默认controlle method
 			$app    = $mod[0];
+            $Module = DEFAULT_CONTROLLER;
 			$mod    = [DEFAULT_METHOD];
-			$Module = DEFAULT_CONTROLLER;
 		}
 	}
 	else
-	{
+	{// 默认app controlle method
 		$app    = DEFAULT_APP;
+        $Module = DEFAULT_CONTROLLER;
 		$mod    = [DEFAULT_METHOD];
-		$Module = DEFAULT_CONTROLLER;
 	}
 
     // 自动加载应用文件

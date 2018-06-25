@@ -1,6 +1,7 @@
 <?php
 // 应用目录
-define('APP_PATH',  __DIR__ . '/../application/');
+define('APP_PATH',  __DIR__ . '/../app/');
+// 是否调试
 define('APP_DEBUG', true);
 
 
