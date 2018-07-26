@@ -8,18 +8,22 @@ class Debug
 	private $_logs 	   = array();
 	/** 输出文件名 */
 	private $_filename;
-	/** 构造函数 */
-	public function __construct($filename = 'ounun_debug.txt')
+
+    /**
+     * Debug constructor.
+     * @param string $filename
+     */
+	public function __construct($filename)
 	{
 		ob_start();
 		register_shutdown_function(array($this, 'callback'));
 		
-		$this->_filename	= $filename;
+		$this->_filename = $filename ?: APP . '_debug.log';
 	}
 	/**
 	 * 调试日志
 	 */
-	public function logs($k, $log)
+	public function log($k, $log)
 	{
 		if ($k && $log)
 		{
@@ -35,47 +39,32 @@ class Debug
 		$buffer     = ob_get_contents();
 		ob_clean();
 		ob_implicit_flush(true);
-		$this->logs('buffer', $buffer);
+        if ('api' === APP) $this->log('buffer', $buffer);
         $this->write();
 		exit($buffer);
 	}
-	
+
+
 	/**
-	 * 析构调试相关
+	 * 日志写入文件
 	 */
-    // public function __destruct()
-	public function write()
+	private function write()
 	{
-		if (!$this->_logs) 
-		{
-			return;
-		}
-		/**  */
-		$filename = Dir_Root . $this->_filename;
-		$logs     = array(
-							'DATE'=> date("Y-m-d H:i:s"),
-							'URL' => url_original($_SERVER['REQUEST_URI']), 
-						 );
-		if ($_GET) 
-		{
-			$logs['GET']        = $_GET;
-		}
-		if ($_POST)
-		{
-			$logs['POST']       = $_POST;
-		}
-		if ($this->_logs)
-		{
-			$logs['LOGS'] 		= $this->_logs;
-		}
-        $this->_logs            = array();
-		/**  */
-		$var      				= var_export($logs, true);
-		if (file_exists($filename))
-		{
-			$var  = $var . "\n------------------\n" . file_get_contents($filename);
-		}
-		file_put_contents($filename, $var);
-		//*/
+		$filename = ROOT_PATH . $this->_filename;
+        $logs = array(
+            'DATE'=> date("Y-m-d H:i:s"),
+            'URL' => url_original($_SERVER['REQUEST_URI']),
+        );
+
+		if ($_GET) $logs['GET'] = $_GET;
+		if ($_POST) $logs['POST'] = $_POST;
+		if ($this->_logs) $logs['LOGS'] = $this->_logs;
+        $this->_logs = null;
+
+        $content = "------------------" . MODULE . '/' . MOD . "------------------\n" . var_export($logs, true) . "\n\n";
+
+        $file = fopen($filename, 'a');
+        fwrite($file, $content);
+        fclose($file);
 	}
 }

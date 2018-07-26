@@ -6,25 +6,11 @@ namespace core;
 define('Tabs',                   "\t");
 /** 换行符 **/
 define('Newline',                "\r\n");
-/** 现在秒数 **/
-define('NOW_TIME',               time());
 
 
 /**
- * Convert special characters to HTML safe entities.
- *
- * @param string $string to encode
+ * 客户端IP
  * @return string
- */
-function h($string)
-{
-	return htmlspecialchars($string, ENT_QUOTES, 'utf-8');
-}
-
-/**
- * 得到客户端IP
- *
- * @return string IP
  */
 function ip()
 {
@@ -48,10 +34,8 @@ function ip()
 
 /**
  * 输出URL
- *
  * @param string $url
  * @param array $data
- *
  * @return string
  */
 function url($url, $data)
@@ -68,10 +52,8 @@ function url($url, $data)
 }
 
 /**
- * 得到 原生 URL(去问号后的 QUERY_STRING)
- *
+ * 得到原生URL(去问号后的QUERY_STRING)
  * @param string $uri
- *
  * @return string
  */
 function url_original($uri)
@@ -82,10 +64,8 @@ function url_original($uri)
 
 /**
  * 通过uri得到mod
- *
  * @param string $uri
  * @param string $root
- *
  * @return array
  */
 function url_to_mod($uri, $root='/')
@@ -103,43 +83,7 @@ function url_to_mod($uri, $root='/')
 }
 
 /**
- * iE缓存控制
- *
- * @param int 		$expires		缓存时间 0:为不缓存 单位:s
- * @param string 	$etag			ETag
- * @param int 		$LastModified	最后更新时间
- */
-function expires($expires=0, $etag='', $LastModified=0)
-{
-	if($expires)
-	{
-		header("Expires: " . gmdate("D, d M Y H:i:s", NOW_TIME + $expires) . " GMT");
-		header("Cache-Control: max-age=" . $expires);
-		$LastModified && header("Last-Modified: " . gmdate("D, d M Y H:i:s", $LastModified) . " GMT");
-		if($etag)
-		{
-			if($etag == $_SERVER["HTTP_IF_NONE_MATCH"])
-			{
-				header("Etag: " . $etag, true, 304);
-				exit();
-			}
-			else
-			{
-				header("Etag: " . $etag);
-			}
-		}
-	}
-	else
-	{
-		header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-		header("Cache-Control: no-cache, must-revalidate");
-		header("Pragma: no-cache");
-	}
-}
-
-/**
  * 页面跳转
- *
  * @param string|array $link
  * @param string|boolean $top
  * @param string $note
@@ -174,13 +118,11 @@ function gouri($link = '', $top = '', $note = '')
 
 /**
  * 弹出对话框
- *
  * @param string $msg
  * @param boolean $outer
- *
  * @return string
  */
-function msg($msg, $outer = true)
+function msg($msg, $outer=true)
 {
 	$rs = Newline . 'alert(' . json_encode($msg) . ');' . Newline;
 	if ($outer)
@@ -189,115 +131,30 @@ function msg($msg, $outer = true)
 	}
 	return $rs;
 }
-/**
- * Filter a valid UTF-8 string so that it contains only words, numbers,
- * dashes, underscores, periods, and spaces - all of which are safe
- * characters to use in file names, URI, XML, JSON, and (X)HTML.
- *
- * @param string $string to clean
- * @param bool $spaces TRUE to allow spaces
- * @return string
- */
-function sanitize($string, $spaces = TRUE)
-{
-	$search = array(
-			'/[^\w\-\. ]+/u',			// Remove non safe characters
-			'/\s\s+/',					// Remove extra whitespace
-			'/\.\.+/', '/--+/', '/__+/'	// Remove duplicate symbols
-	);
-
-	$string = preg_replace($search, array(' ', ' ', '.', '-', '_'), $string);
-
-	if( ! $spaces)
-	{
-		$string = preg_replace('/--+/', '-', str_replace(' ', '-', $string));
-	}
-
-	return trim($string, '-._ ');
-}
 
 
-/**
- * Create a SEO friendly URL string from a valid UTF-8 string.
- *
- * @param string $string to filter
- * @return string
- */
-function sanitize_url($string)
-{
-	return urlencode(mb_strtolower(sanitize($string, FALSE)));
-}
-
-
-/**
- * Filter a valid UTF-8 string to be file name safe.
- *
- * @param string $string to filter
- * @return string
- */
-function sanitize_filename($string)
-{
-	return sanitize($string, FALSE);
-}
-
-/**
- * Encode a string so it is safe to pass through the URL
- *
- * @param string $string to encode
- * @return string
- */
-function base64_url_encode($string = NULL)
-{
-	return strtr(base64_encode($string), '+/=', '-_~');
-}
-
-
-/**
- * Decode a string passed through the URL
- *
- * @param string $string to decode
- * @return string
- */
-function base64_url_decode($string = NULL)
-{
-	return base64_decode(strtr($string, '-_~', '+/='));
-}
-
-
-/**
- * 基类的基类
- */
 class Base
 {
-	/**
-	 * 默认方法
-	 */
-	public $default_method = DEFAULT_METHOD;
-	/**
-	 * 没定的方法
-	 * @param String $method
-	 * @param String $arg
-	 */
 	public function __call($method, $arg)
 	{
-        if ($arg[1] && $method == $arg[1])
+        if (DEFAULT_METHOD == $method)
         {
             header('HTTP/1.1 404 Not Found');
             trigger_error("ERROR! Can't find {$method} in " . get_class($this), E_USER_ERROR);
         }
         else
         {
-            $this->{$this->default_method}($arg[0], $method);
+            define('METHOD', DEFAULT_METHOD);
+            $this->{DEFAULT_METHOD}();
         }
 	}
-	
+
 	/**
 	 * DB静态数组
 	 */
 	private static $_db = array();
 	/**
 	 * 返回数据库连接对像
-	 *
 	 * @param string $key
 	 * @return \core\Mysql
 	 */
@@ -314,41 +171,43 @@ class Base
      * @var $debug Debug
      */
     public $debug	= null;
+    /**
+     * 开启日志
+     * @param string $filename
+     */
+    public function debug($filename)
+    {
+        $this->debug = new Debug($filename);
+    }
 	/**
-	 * 调试日志
+	 * 记录日志
 	 * @param string $k
 	 * @param mixed $log
 	 */
-	public function logs($k, $log)
+	public function log($k, $log)
 	{
 		if ($this->debug)
 		{
-			$this->debug->logs($k, $log);
+			$this->debug->log($k, $log);
 		}
 	}
 }
 
-/**
- * 构造模块基类 *
- */
 class Controller extends Base
 {
-	public function __construct($mod)
+	public function __construct($method)
 	{
-		if (!$mod)
-		{
-			$mod = array($this->default_method);
-		}
+	    $method = $method ?: DEFAULT_METHOD;
+        define('METHOD', $method);
 
-		$this->{$mod[0]}($mod);
+		$this->{$method}();
 	}
 	
 	/**
-	 * Template句柄容器
+	 * Template
 	 * @var \core\Tpl
 	 */
 	protected $_stpl = null;
-
 	public function Template()
 	{
         require_once 'Tpl.php';
@@ -373,9 +232,9 @@ class Controller extends Base
 	}
 }
 
+
 /**
  * 世界从这里开始
- *
  * @param array $mod
  */
 function start($mod)
@@ -384,45 +243,48 @@ function start($mod)
 	header('Server: Mochiweb');
 	header('X-Powered-By: Mochiweb/Mirahs');
 
+    $method = null;
 	if (is_array($mod) && $mod[0])
-	{// 有app
+	{
 		if ($mod[1])
-		{// 有controller
+		{
 			$app    = $mod[0];
-			$Module = $mod[1];
-            $filename = APP_PATH . $app . '/controller/' . $Module . '.php';
-            array_shift($mod);
+			$controller = $mod[1];
+            $filename = APP_PATH . $app . '/controller/' . $controller . 'Controller.php';
             if (file_exists($filename))
             {
-                array_shift($mod);
+                if (!empty($mod[2])) $method = $mod[2];
             }
             else
-            {// 默认controller
-                $Module =  DEFAULT_CONTROLLER;
+            {
+                $controller = DEFAULT_CONTROLLER;
+                $method = $mod[1];
             }
 		}
 		else
-		{// 默认controlle method
+		{
 			$app    = $mod[0];
-            $Module = DEFAULT_CONTROLLER;
-			$mod    = [DEFAULT_METHOD];
+            $controller = DEFAULT_CONTROLLER;
+            $method = DEFAULT_METHOD;
 		}
 	}
 	else
-	{// 默认app controlle method
-		$app    = DEFAULT_APP;
-        $Module = DEFAULT_CONTROLLER;
-		$mod    = [DEFAULT_METHOD];
+	{
+        header('Location:' . url_original($_SERVER['REQUEST_URI']) . DEFAULT_APP . '/' . DEFAULT_CONTROLLER . '/' . DEFAULT_METHOD . '.html');
+        exit;
 	}
+
+	define('APP', $app);
+    define('CONTROLLER', $controller);
+    define('METHOD', $method);
 
     // 自动加载应用文件
     $app_autoload_file = APP_PATH . $app . '/autoload.php';
-    if (file_exists($app_autoload_file))
-    {
-        require_once $app_autoload_file;
-    }
+    if (file_exists($app_autoload_file)) require_once $app_autoload_file;
+
+    // 模板路径
 	define('VIEW_PATH', APP_PATH . $app . '/view/');
-	// 初始化类
-	$Module = "app\\{$app}\\controller\\" . $Module;
-    new $Module($mod);
+
+	$Module = "app\\{$app}\\controller\\" . $controller . 'Controller';
+    new $Module($method);
 }

@@ -101,6 +101,7 @@ class Tpl
     
     public static function import($filename)
     {
+        $filename = $filename ?: CONTROLLER . '/' . METHOD . '.php';
         self::$_drive->import($filename);
     }    
 }

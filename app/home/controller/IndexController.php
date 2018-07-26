@@ -4,7 +4,7 @@ namespace app\home\controller;
 use \core\Controller;
 
 
-class Index extends Controller
+class IndexController extends Controller
 {
     public function Index()
     {
@@ -29,6 +29,6 @@ class Index extends Controller
 
         $this->assign('name', 'mirahs');
 
-        $this->import('index/view.html.php');
+        $this->import();
     }
 }
