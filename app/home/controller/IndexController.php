@@ -18,7 +18,7 @@ class IndexController extends Controller
 
     public function Tdb()
     {
-        $db = self::db('test');
+        $db = DB('test');
         $data = $db->dataArray('SELECT * FROM `user`');
         print_r($data);
     }

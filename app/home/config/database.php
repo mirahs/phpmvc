@@ -1,9 +1,15 @@
 <?php
-$GLOBALS['scfg']['db']['test'] =
-    [
-        'host'       => 'localhost:3306',
-        'username'   => 'root',
-        'password'   => 'root',
-        'database'   => 'test',
-        'charset'    => 'utf8',
-    ];
+return [
+    'db' => [
+        'test' => [
+            'driver'    => 'mysql',
+            'host'      => 'localhost:3306',
+            'database'  => 'test',
+            'username'  => 'root',
+            'password'  => 'root',
+            'charset'   => 'utf8',
+            'collation' => 'utf8mb4_general_ci',
+            'prefix'    => '',
+        ],
+    ],
+];

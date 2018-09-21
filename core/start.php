@@ -1,4 +1,5 @@
 <?php
+require_once 'common/functions.php';
 require_once 'Core.php';
 
 
@@ -19,8 +20,8 @@ if ('cli' === PHP_SAPI)
 }
 else
 {
-    $uri = core\url_original($_SERVER['REQUEST_URI']);
-    $mod = core\url_to_mod($uri);
+    $uri = \core\url_original($_SERVER['REQUEST_URI']);
+    $mod = \core\url_to_mod($uri);
 }
 
-core\start($mod);
+\core\start($mod);

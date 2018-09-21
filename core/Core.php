@@ -14,22 +14,22 @@ define('Newline',                "\r\n");
  */
 function ip()
 {
-	if (isset($_SERVER['HTTP_CLIENT_IP']))
-	{
-		$hdr_ip = stripslashes($_SERVER['HTTP_CLIENT_IP']);
-	}
-	else
-	{
-		if (isset($_SERVER['HTTP_X_FORWARDED_FOR']))
-		{
-			$hdr_ip = stripslashes($_SERVER['HTTP_X_FORWARDED_FOR']);
-		}
-		else
-		{
-			$hdr_ip = stripslashes($_SERVER['REMOTE_ADDR']);
-		}
-	}
-	return $hdr_ip;
+    if (isset($_SERVER['HTTP_CLIENT_IP']))
+    {
+        $hdr_ip = stripslashes($_SERVER['HTTP_CLIENT_IP']);
+    }
+    else
+    {
+        if (isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+        {
+            $hdr_ip = stripslashes($_SERVER['HTTP_X_FORWARDED_FOR']);
+        }
+        else
+        {
+            $hdr_ip = stripslashes($_SERVER['REMOTE_ADDR']);
+        }
+    }
+    return $hdr_ip;
 }
 
 /**
@@ -40,15 +40,15 @@ function ip()
  */
 function url($url, $data)
 {
-	$rs = array();
-	if (is_array($data))
-	{
-		foreach ($data as $key => $value)
+    $rs = array();
+    if (is_array($data))
+    {
+        foreach ($data as $key => $value)
         {
             $rs[] = $key . '=' . urlencode($value);
         }
-	}
-	return $url . (strstr('?', $url) ? '&' : '?') . implode('&', $rs);
+    }
+    return $url . (strstr('?', $url) ? '&' : '?') . implode('&', $rs);
 }
 
 /**
@@ -58,8 +58,8 @@ function url($url, $data)
  */
 function url_original($uri)
 {
-	$t = explode('?', $uri, 2);
-	return $t[0];
+    $t = explode('?', $uri, 2);
+    return $t[0];
 }
 
 /**
@@ -70,16 +70,16 @@ function url_original($uri)
  */
 function url_to_mod($uri, $root='/')
 {
-	$uri 	= explode($root, $uri, 					2);	
-	$uri 	= explode('.', 	 urldecode($uri[1]),	2);
-	$uri	= explode('/', 	 $uri[0]);	
-	
-	$mod	= array();
-	foreach ($uri as $v) 
-	{
-		$v !== '' && $mod[] = $v;
-	}
-	return $mod;
+    $uri 	= explode($root, $uri, 					2);
+    $uri 	= explode('.', 	 urldecode($uri[1]),	2);
+    $uri	= explode('/', 	 $uri[0]);
+
+    $mod	= array();
+    foreach ($uri as $v)
+    {
+        $v !== '' && $mod[] = $v;
+    }
+    return $mod;
 }
 
 /**
@@ -111,7 +111,7 @@ function gouri($link = '', $top = '', $note = '')
     }
     else
     {
-    	echo '<script type="text/javascript">location.href="' . $link . '"</script>';
+        echo '<script type="text/javascript">location.href="' . $link . '"</script>';
     }
     exit();
 }
@@ -124,12 +124,12 @@ function gouri($link = '', $top = '', $note = '')
  */
 function msg($msg, $outer=true)
 {
-	$rs = Newline . 'alert(' . json_encode($msg) . ');' . Newline;
-	if ($outer)
-	{
-		$rs = '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />' . Newline . '<script type="text/javascript">' . Newline . $rs . Newline . '</script>' . Newline;
-	}
-	return $rs;
+    $rs = Newline . 'alert(' . json_encode($msg) . ');' . Newline;
+    if ($outer)
+    {
+        $rs = '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />' . Newline . '<script type="text/javascript">' . Newline . $rs . Newline . '</script>' . Newline;
+    }
+    return $rs;
 }
 
 
@@ -149,22 +149,6 @@ class Base
         }
 	}
 
-	/**
-	 * DB静态数组
-	 */
-	private static $_db = array();
-	/**
-	 * 返回数据库连接对像
-	 * @param string $key
-	 * @return \core\Mysql
-	 */
-	public static function db($key)
-	{
-		self::$_db[$key] || self::$_db[$key] = new Mysql($GLOBALS['scfg']['db'][$key]);
-		self::$_db[$key]->active();
-
-		return self::$_db[$key];
-	}
 	
 	/**
      * 调试相关
@@ -186,10 +170,7 @@ class Base
 	 */
 	public function log($k, $log)
 	{
-		if ($this->debug)
-		{
-			$this->debug->log($k, $log);
-		}
+		$this->debug && $this->debug->log($k, $log);
 	}
 }
 
@@ -226,7 +207,7 @@ class Controller extends Base
 	 * 输出
 	 * @param string $filename
 	 */
-	public function import($filename)
+	public function import($filename='')
 	{
 		$this->_stpl->import($filename);
 	}
@@ -278,6 +259,9 @@ function start($mod)
     define('CONTROLLER', $controller);
     define('METHOD', $method);
 
+    // 自动加载全局文件
+    $autoload_file = ROOT_PATH . 'autoload.php';
+    if (file_exists($autoload_file)) require_once $autoload_file;
     // 自动加载应用文件
     $app_autoload_file = APP_PATH . $app . '/autoload.php';
     if (file_exists($app_autoload_file)) require_once $app_autoload_file;
