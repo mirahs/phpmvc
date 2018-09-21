@@ -2,7 +2,7 @@
 return [
     'db' => [
         'test' => [
-            'driver'    => 'mysql',
+            'type'      => 'mysql',
             'host'      => 'localhost:3306',
             'database'  => 'test',
             'username'  => 'root',
