@@ -13,7 +13,7 @@ class Mysql
 	private $_query_affected;
 	
 	private $_debug		= false;
-	private $_charset	= 'utf8'; //,'utf8','gbk',latin1;
+	private $_charset	= 'utf8mb4'; //utf8mb4,gbk,latin1
 	
 	
 	/**
