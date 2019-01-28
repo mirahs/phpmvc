@@ -159,18 +159,19 @@ class Base
      * 开启日志
      * @param string $filename
      */
-    public function debug($filename)
+    public function debug($filename = '')
     {
         $this->debug = new Debug($filename);
     }
 	/**
 	 * 记录日志
 	 * @param string $k
-	 * @param mixed $log
+	 * @param mixed $v
 	 */
-	public function log($k, $log)
+	public function log($k, $v)
 	{
-		$this->debug && $this->debug->log($k, $log);
+	    $this->debug || $this->debug();
+		$this->debug->log($k, $v);
 	}
 }
 
