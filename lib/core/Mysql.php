@@ -58,7 +58,7 @@ class Mysql
 	 * 插入一条或多条记录
 	 *
 	 * @param  String $table 表名 
-	 * @param  Array $bind  数据 Array
+	 * @param  array $bind  数据 Array
 	 * @return Int insertId
 	 */
 	public function insert($table, $bind)
@@ -123,9 +123,9 @@ class Mysql
 	 * 用新值更新原有表行中的各列
 	 *
 	 * @param String $table 表名
-	 * @param Array  $data  数据数组
+	 * @param array  $data  数据数组
 	 * @param String $where 条件
-	 * @param Array  $bind  条件数组
+	 * @param array  $bind  条件数组
 	 * @return queryAffected
 	 */
 	public function update($table, $data, $where = null, $bind = null, $limit = 0)

@@ -50,7 +50,9 @@ class Debug
 	 */
 	private function write()
 	{
-		$filename = ROOT_PATH . $this->_filename;
+	    $pathDir = APP_PUBLIC . 'logs/';
+	    PathSure($pathDir);
+		$filename = $pathDir . $this->_filename;
         $logs = array(
             'DATE'=> date("Y-m-d H:i:s"),
             'URL' => url_original($_SERVER['REQUEST_URI']),
@@ -61,7 +63,7 @@ class Debug
 		if ($this->_logs) $logs['LOGS'] = $this->_logs;
         $this->_logs = null;
 
-        $content = "------------------" . MODULE . '/' . MOD . "------------------\n" . var_export($logs, true) . "\n\n";
+        $content = "------------------" . APP . '/' . CONTROLLER . '/' . METHOD . "------------------\n" . var_export($logs, true) . "\n\n";
 
         $file = fopen($filename, 'a');
         fwrite($file, $content);
