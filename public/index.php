@@ -7,7 +7,7 @@ define('APP_PATH',  __DIR__ . '/../app/');
 define('APP_DEBUG', true);
 
 // 默认应用
-define('DEFAULT_APP',           'cp');
+define('DEFAULT_APP',           'home');
 // 默认控制器
 define('DEFAULT_CONTROLLER',    'Index');
 // 默认方法
