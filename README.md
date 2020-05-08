@@ -7,8 +7,8 @@ a simple mvc framework by php
 ## 编译
 ```shell
 composer install
-composer update
-composer dump-autoload
+composer update (只有确认要更新依赖才执行)
+composer dump-autoload (有添加新的类需要执行)
 ```
 
 ## 示例配置
