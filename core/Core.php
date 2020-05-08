@@ -232,7 +232,7 @@ function start($mod)
 		{
 			$app    = $mod[0];
 			$controller = $mod[1];
-            $filename = APP_PATH . $app . '/controller/' . $controller . 'Controller.php';
+            $filename = APP_PATH . $app . '/controller/' . $controller . '.php';
             if (file_exists($filename))
             {
                 if (!empty($mod[2])) $method = $mod[2];
@@ -270,6 +270,6 @@ function start($mod)
     // 模板路径
 	define('VIEW_PATH', APP_PATH . $app . '/view/');
 
-	$Module = "app\\{$app}\\controller\\" . $controller . 'Controller';
+	$Module = "app\\{$app}\\controller\\" . $controller;
     new $Module($method);
 }

@@ -8,7 +8,7 @@ use think\Db;
 use app\home\model\User;
 
 
-class IndexController extends Controller
+class Index extends Controller
 {
     public function Index()
     {
