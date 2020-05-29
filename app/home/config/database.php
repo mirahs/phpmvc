@@ -3,7 +3,8 @@ return [
     'db' => [
         'test' => [
             'type'      => 'mysql',
-            'host'      => 'localhost:3306',
+            'hostname'  => 'localhost',
+            'hostport'  => '3306',
             'database'  => 'test',
             'username'  => 'root',
             'password'  => 'root',

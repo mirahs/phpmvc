@@ -28,7 +28,7 @@ class Mysql
 		$config['charset'] && $this->_charset = $config['charset'];
 		try
 		{
-			$dsn = 'mysql:host=' . $config['host'] . ';dbname=' . $config['database'] . ';charset=' . $this->_charset;
+            $dsn = 'mysql:host=' . $config['hostname'] . ':' . $config['hostport'] . ';dbname=' . $config['database'] . ';charset=' . $this->_charset;
 			$this->_dbh = new \PDO($dsn, $config['username'], $config['password']);
 		}
 		catch (\PDOException $e)
