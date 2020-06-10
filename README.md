@@ -1,4 +1,4 @@
-# phpmvc
+# phpweb
 a simple mvc framework by php
 
 ## 依赖

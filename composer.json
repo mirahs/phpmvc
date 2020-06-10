@@ -1,13 +1,16 @@
 {
-	"require": {
-		"filp/whoops": "*",
-		"topthink/think-orm": "*"
-	},
+  "require": {
+    "ext-json": "*",
+    "ext-pdo": "*",
 
-	"autoload": {
-		"classmap": [
-			"app",
-			"lib"
-		]
-	}
+    "filp/whoops": "*",
+    "topthink/think-orm": "*"
+  },
+
+  "autoload": {
+    "classmap": [
+      "app",
+      "lib"
+    ]
+  }
 }
