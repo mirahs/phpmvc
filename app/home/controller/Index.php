@@ -13,7 +13,11 @@ class Index extends Controller {
     }
 
     public function Test() {
-        echo 'hello test';
+        echo 'hello test' . "<br />";
+        echo "\core\uri_full():" . \core\uri_full() . "<br />";
+        echo '$_SERVER[\'REQUEST_URI\']:' . $_SERVER['REQUEST_URI'] . "<br />";
+        echo '\core\ip():' . \core\ip() . "<br />";
+        echo '\core\url():' . \core\url('/test', ['a' => 'aaa', 'b' => 222]) . "<br />";
     }
 
     public function View() {
