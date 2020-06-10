@@ -127,7 +127,7 @@ class Page {
                 $return .= "<a class='now_page'>$i</a>\n";
             } else {
                 if ($this->now_page - $i >= 4 && $i != 1) {
-                    $return .="<span class='pageMore'>...</span>\n";
+                    $return .="<span>...</span>\n";
                     $i = $this->now_page - 3;
                 } else {
                     if ($i >= $this->now_page + 5 && $i != $this->total_pages) {
@@ -168,10 +168,8 @@ class Page {
      * @return string
      */
     private function first_page($name = '第一页') {
-        if ($this->now_page > 5) {
-            return $this->_get_link('1', $name);
-        }
-        return '';
+        if ($this->now_page <= 5) return '';
+        return $this->_get_link('1', $name);
     }
 
     /**
@@ -180,10 +178,8 @@ class Page {
      * @return string
      */
     private function last_page($name = '最后一页') {
-        if ($this->now_page < $this->total_pages - 5) {
-            return $this->_get_link($this->total_pages, $name);
-        }
-        return '';
+        if ($this->now_page >= $this->total_pages - 5) return '';
+        return $this->_get_link($this->total_pages, $name);
     }
 
     /**
@@ -202,9 +198,7 @@ class Page {
      * @return string
      */
     private function down_page($name = '下一页') {
-        if ($this->now_page < $this->total_pages) {
-            return $this->_get_link($this->now_page + 1, $name);
-        }
-        return '';
+        if ($this->now_page >= $this->total_pages) return '';
+        return $this->_get_link($this->now_page + 1, $name);
     }
 }
