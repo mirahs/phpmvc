@@ -3,8 +3,8 @@
     "ext-json": "*",
     "ext-pdo": "*",
 
-    "filp/whoops": "*",
-    "topthink/think-orm": "*"
+    "filp/whoops": "2.3.1",
+    "topthink/think-orm": "v1.2.13"
   },
 
   "autoload": {
