@@ -36,7 +36,7 @@ class Debug {
     /**
      * 内部回调
      */
-    private function callback() {
+    public function callback() {
         $buffer = ob_get_contents();
         ob_clean();
         ob_implicit_flush(true);
