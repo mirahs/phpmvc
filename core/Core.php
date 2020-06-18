@@ -136,7 +136,7 @@ function start($mod) {
     define('METHOD', $method);
 
     // 自动加载全局文件
-    $autoload_file = ROOT_PATH . 'autoload.php';
+    $autoload_file = APP_PATH . 'autoload.php';
     if (file_exists($autoload_file)) require_once $autoload_file;
     // 自动加载应用文件
     $app_autoload_file = APP_PATH . $app . '/autoload.php';
