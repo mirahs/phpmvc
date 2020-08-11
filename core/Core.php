@@ -58,7 +58,7 @@ class Base {
      * @param string $key
      * @param mixed $val
      */
-    public function log($key, $val) {
+    public function log($key, $val = '') {
         $this->_debug || $this->debug();
         $this->_debug->log($key, $val);
     }

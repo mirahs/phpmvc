@@ -98,17 +98,16 @@ function path_sure($path) {
  * @param string $filename
  */
 function log_web($key = "", $val = "", $filename = '') {
-    if (!$key || !$val) return;
+    if (!$key) return;
 
-    $pathDir = APP_PUBLIC . 'logs/';
+    $pathDir = ROOT_PATH . 'log/';
     path_sure($pathDir);
     $filename = $filename ?: 'web.log';
     $filename = $pathDir . $filename;
     $file = fopen($filename,'a');
 
-    $content = '';
-    $content .= $key. " --- " . date("Y-m-d H:i:s") . " \n";
-    $content .= json_encode($val) . " \n\n";
+    $content = $content = "---" . date("Y-m-d H:i:s") . ' === ' . url_original($_SERVER['REQUEST_URI']) . "---\n";
+    $content .= $key. ":" . json_encode($val, JSON_UNESCAPED_UNICODE) . " \n\n";
 
     fwrite($file,$content);
     fclose($file);
@@ -120,11 +119,7 @@ function log_web($key = "", $val = "", $filename = '') {
  */
 function uri_full() {
     $pageURL = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')) ? 'https://' : 'http://';
-    if ($_SERVER["SERVER_PORT"] != "80") {
-        $pageURL .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"];
-    } else {
-        $pageURL .= $_SERVER["SERVER_NAME"];
-    }
+    $pageURL .= $_SERVER['HTTP_HOST'];
     return $pageURL;
 }
 

@@ -27,7 +27,7 @@ class Debug {
      * @param $val
      */
     public function log($key, $val) {
-        if ($key && $val) {
+        if ($key) {
             $this->_logs[ $key ] = $val;
         }
     }
@@ -40,7 +40,7 @@ class Debug {
         $buffer = ob_get_contents();
         ob_clean();
         ob_implicit_flush(true);
-        if ('api' === APP) $this->log('buffer', $buffer);
+        //if ('api' === APP) $this->log('buffer', $buffer);
         $this->write();
         exit($buffer);
     }
@@ -50,7 +50,7 @@ class Debug {
      * 日志写入文件
      */
     private function write() {
-        $pathDir = APP_PUBLIC . 'logs/';
+        $pathDir = ROOT_PATH . 'log/';
         path_sure($pathDir);
         $filename = $pathDir . $this->_filename;
 
