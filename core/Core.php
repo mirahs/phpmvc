@@ -39,29 +39,6 @@ class Base {
             $this->{DEFAULT_METHOD}();
         }
     }
-
-
-    /**
-     * 调试相关
-     * @var $debug Debug
-     */
-    private $_debug 	= null;
-    /**
-     * 开启日志
-     * @param string $filename
-     */
-    private function debug($filename = '') {
-        $this->_debug = new Debug($filename);
-    }
-    /**
-     * 记录日志
-     * @param string $key
-     * @param mixed $val
-     */
-    public function log($key, $val = '') {
-        $this->_debug || $this->debug();
-        $this->_debug->log($key, $val);
-    }
 }
 
 class Controller extends Base {

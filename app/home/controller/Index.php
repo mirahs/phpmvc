@@ -1,13 +1,13 @@
 <?php
 namespace app\home\controller;
 
+use app\common\BaseController;
 use app\home\model\LogUser;
-use \core\Controller;
 use think\Db;
 use app\home\model\User;
 
 
-class Index extends Controller {
+class Index extends BaseController {
     public function Index() {
         echo 'hello index';
     }
@@ -89,5 +89,16 @@ class Index extends Controller {
         echo '$user3->account:' . $user3->account . ', $user3->password:' . $user3->password . '<br />';
 
         LogUser::destroy(['account' => 'cb']);
+    }
+
+    public function TestDebug() {
+        $this->log('from Index.TestDebug', 111);
+        $this->log('from Index.TestDebug 222');
+    }
+
+    public function TestDebug2() {
+        $this->debug('test2.log');
+        $this->log('from Index.TestDebug2', 111);
+        $this->log('from Index.TestDebug2 222');
     }
 }
