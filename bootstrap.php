@@ -19,7 +19,14 @@ if (APP_DEBUG) {
         $whoops->pushHandler(new Whoops\Handler\PrettyPageHandler());
     }
     $whoops->register();
+
+    ini_set('display_errors','On');
+} else {
+    ini_set('display_errors','Off');
+    ini_set('log_errors', 'On');
+    ini_set('error_log', ROOT_PATH . 'log/php_errors.log');
 }
+ini_set('date.timezone','Asia/Shanghai');
 
 // 加载框架引导文件
 require_once __DIR__ . '/core/start.php';
