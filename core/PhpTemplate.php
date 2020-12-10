@@ -1,6 +1,6 @@
 <?php
 class PhpTemplate {
-    /** 模板文件所以目录 */
+    /** 模板文件目录 */
     private $_template_dir;
     /** 数据缓存 */
     private $_data = [];

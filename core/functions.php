@@ -100,7 +100,7 @@ function path_sure($path) {
 function log_web($key = "", $val = "", $filename = '') {
     if (!$key) return;
 
-    $pathDir = ROOT_PATH . 'log/';
+    $pathDir = PATH_ROOT . 'log/';
     path_sure($pathDir);
     $filename = $filename ?: 'web.log';
     $filename = $pathDir . $filename;

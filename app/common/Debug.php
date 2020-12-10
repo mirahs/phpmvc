@@ -1,23 +1,23 @@
 <?php
-namespace core;
+namespace app\common;
 
 
 class Debug {
     /** 日志数据 */
     private $_logs = [];
-    /** 输出文件名 */
+    /** 调试文件 */
     private $_filename;
 
 
     /**
      * Debug constructor.
-     * @param string $filename
+     * @param string $filename 调试文件
      */
     public function __construct($filename) {
+        $this->_filename = $filename ?: APP . '_debug.log';
+
         ob_start();
         register_shutdown_function([$this, 'callback']);
-
-        $this->_filename = $filename ?: APP . '_debug.log';
     }
 
 
@@ -27,9 +27,7 @@ class Debug {
      * @param $val
      */
     public function log($key, $val) {
-        if ($key) {
-            $this->_logs[ $key ] = $val;
-        }
+        if ($key) $this->_logs[ $key ] = $val;
     }
 
 
@@ -50,13 +48,11 @@ class Debug {
      * 日志写入文件
      */
     private function write() {
-        $pathDir = ROOT_PATH . 'log/';
-        path_sure($pathDir);
-        $filename = $pathDir . $this->_filename;
+        $filename = PATH_LOG . $this->_filename;
 
         $logs = [
             'DATE'=> date("Y-m-d H:i:s"),
-            'URL' => url_original($_SERVER['REQUEST_URI']),
+            'URL' => \core\url_original($_SERVER['REQUEST_URI']),
         ];
 
         if ($_GET) $logs['GET'] = $_GET;

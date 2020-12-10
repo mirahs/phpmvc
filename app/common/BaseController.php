@@ -2,18 +2,14 @@
 namespace app\common;
 
 use core\Controller;
-use core\Debug;
 
 
 class BaseController extends Controller {
-    /**
-     * 调试工具
-     * @var $_debug Debug
-     */
+    /** @var Debug 调试工具 */
     private $_debug = null;
     /**
      * 开启调试
-     * @param string $filename
+     * @param string $filename 调试文件
      */
     public function debug($filename = '') {
         $this->_debug = new Debug($filename);

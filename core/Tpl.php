@@ -11,12 +11,12 @@ class Tpl {
      * @param string $template_dir
      * @param string $drive
      */
-    public function __construct($template_dir, $drive = '', $temp_dir = '', $cache_lifetime = '', $template_filename = '') {
+    public function __construct($template_dir, $drive = '') {
         $drive || $drive = $this->_drive_name;
         $filename = __DIR__ . '/' . "{$drive}.php";
         if (file_exists($filename)) {
             require_once $filename;
-            self::$_drive = new $drive($template_dir, $temp_dir, $cache_lifetime, $template_filename);
+            self::$_drive = new $drive($template_dir);
         } else {
             trigger_error("出错:找不到{$drive}模板驱动", E_USER_ERROR);
             exit();
