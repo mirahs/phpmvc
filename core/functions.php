@@ -100,10 +100,8 @@ function path_sure($path) {
 function log_web($key = "", $val = "", $filename = '') {
     if (!$key) return;
 
-    $pathDir = PATH_ROOT . 'log/';
-    path_sure($pathDir);
     $filename = $filename ?: 'web.log';
-    $filename = $pathDir . $filename;
+    $filename = PATH_LOG . $filename;
     $file = fopen($filename,'a');
 
     $content = $content = "---" . date("Y-m-d H:i:s") . ' === ' . url_original($_SERVER['REQUEST_URI']) . "---\n";

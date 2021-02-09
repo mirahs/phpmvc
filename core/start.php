@@ -21,4 +21,5 @@ if ('cli' === PHP_SAPI) {
     $mod = \core\url_to_mod($uri);
 }
 
+\core\path_sure(PATH_LOG);
 \core\start($mod);
