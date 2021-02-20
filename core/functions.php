@@ -1,8 +1,6 @@
 <?php
 namespace core;
 
-use think\Model;
-
 
 /** 制表符 **/
 define('Tabs',                   "\t");
@@ -48,67 +46,11 @@ function conf($name = null, $value = null, $default = null) {
 }
 
 /**
- * 数据库连接对像
- * @param mixed $key
- * @return Mysql|null
- */
-function db($key = null) {
-    // DB静态数组
-    static $_db = [];
-    if (is_null($key)) return null;
-    if (empty($_db[$key])) $_db[ $key ] = new Mysql(conf('db.' . $key));
-    $_db[ $key ]->active();
-    return $_db[ $key ];
-}
-
-/**
- * layui分页
- * @param Model $model Model实例
- * @param array $where 查询条件数组
- * @param string $fields 查询的字段(默认所有)
- * @return array
- * @throws \think\db\exception\DataNotFoundException
- * @throws \think\db\exception\DbException
- * @throws \think\db\exception\ModelNotFoundException
- */
-function page(Model $model, $where = [], $fields = '') {
-    $page = $_GET['page'] ?: 1;
-    $limit = $_GET['limit'] ?: 10;
-    $start = ($page - 1) * $limit;
-
-    $count = $model->where($where)->count('*');
-
-    $fields = $fields ?: '*';
-    $datas = $model->field($fields)->where($where)->limit($start,  $limit)->select();
-    return ['page' => ['curr' => $page, 'limit' => $limit, 'count' => $count, 'query' => _page_query()], 'datas' => $datas];
-}
-
-/**
  * 确保目录存在
  * @param string $path
  */
 function path_sure($path) {
     if (!file_exists($path)) mkdir($path,0777,true);
-}
-
-/**
- * 日志记录
- * @param string $key
- * @param string $val
- * @param string $filename
- */
-function log_web($key = "", $val = "", $filename = '') {
-    if (!$key) return;
-
-    $filename = $filename ?: 'web.log';
-    $filename = PATH_LOG . $filename;
-    $file = fopen($filename,'a');
-
-    $content = $content = "---" . date("Y-m-d H:i:s") . ' === ' . url_original($_SERVER['REQUEST_URI']) . "---\n";
-    $content .= $key. ":" . json_encode($val, JSON_UNESCAPED_UNICODE) . " \n\n";
-
-    fwrite($file,$content);
-    fclose($file);
 }
 
 /**
@@ -191,14 +133,4 @@ function msg($msg, $outer = true) {
         $rs = '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />' . Newline . '<script type="text/javascript">' . Newline . $rs . Newline . '</script>' . Newline;
     }
     return $rs;
-}
-
-
-function _page_query() {
-    $rs = $_GET;
-    unset($rs['page']);
-    unset($rs['limit']);
-    $datas = [];
-    foreach ($rs as $key => $value) $datas[] = $key . '=' . urlencode($value);
-    return '&' . implode('&', $datas);
 }
